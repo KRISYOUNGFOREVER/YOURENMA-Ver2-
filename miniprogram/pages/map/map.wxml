@@ -1,0 +1,74 @@
+<view class="container">
+  <!-- 顶部品牌条 -->
+  <view class="map-topbar">
+    <view class="topbar-title">YOURENMA</view>
+    <view class="topbar-subtitle">发现附近的人</view>
+  </view>
+
+  <!-- 附近用户数量显示 -->
+  <view class="nearby-count">
+    附近 {{nearbyUsers.length}} 人
+  </view>
+
+  <!-- 地图组件 -->
+  <map 
+    id="map"
+    class="map"
+    latitude="{{latitude}}"
+    longitude="{{longitude}}"
+    scale="{{scale}}"
+    markers="{{markers}}"
+    show-location="{{true}}"
+    bindmarkertap="onMarkerTap"
+    bindlongtap="onMapLongTap"
+  >
+    <!-- 快捷操作区（放到 map 内，并使用 cover-view/cover-image 以保证可点击） -->
+    <cover-view class="quick-actions">
+      <!-- 刷新按钮 -->
+      <cover-view class="refresh-btn" bindtap="refreshNearbyUsers">
+        <cover-image 
+          class="refresh-icon {{refreshing ? 'refreshing' : ''}}"
+          src="/images/refresh.png"
+          mode="aspectFit"
+        ></cover-image>
+      </cover-view>
+
+      <!-- 广播按钮 -->
+      <cover-view class="broadcast-btn" bindtap="showBroadcastModal">
+        <cover-image 
+          class="broadcast-icon"
+          src="/images/broadcast.png"
+          mode="aspectFit"
+        ></cover-image>
+      </cover-view>
+    </cover-view>
+  </map>
+
+  <!-- 广播对话框（补充缺失的结构） -->
+  <view class="broadcast-modal" wx:if="{{showBroadcastModal}}">
+    <view class="broadcast-content">
+      <view class="broadcast-title">发布广播</view>
+      <textarea
+        class="broadcast-textarea"
+        placeholder="说点什么..."
+        value="{{broadcastContent}}"
+        bindinput="onBroadcastInput"
+        maxlength="200"
+      ></textarea>
+      <view class="broadcast-actions">
+        <view class="broadcast-cancel" bindtap="closeBroadcastModal">取消</view>
+        <view class="broadcast-submit" bindtap="sendBroadcast">发送</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 模拟用户头像按钮 -->
+  <view class="mock-user-btn" wx:if="{{mockUserActive}}">
+    <round-avatar 
+      src="{{mockUser.avatarUrl}}"
+      size="100"
+      shape="circle"
+      border="true"
+    ></round-avatar>
+  </view>
+</view>

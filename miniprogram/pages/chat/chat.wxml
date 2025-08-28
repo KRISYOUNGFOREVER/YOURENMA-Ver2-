@@ -1,0 +1,178 @@
+<view class="chat-container {{isDarkMode ? 'dark-mode' : ''}}">
+  <!-- 顶部导航栏 -->
+  <view class="chat-header">
+    <view class="header-left">
+      <button class="back-btn" bindtap="navigateBack">
+        <text class="icon-back">‹</text>
+      </button>
+    </view>
+    <view class="header-center">
+      <view class="user-info">
+        <text class="user-nickname">{{targetUser.nickname || '匿名用户'}}</text>
+        <text class="user-status" wx:if="{{targetUser.distance !== undefined}}">距离{{targetUser.distance}}m</text>
+      </view>
+    </view>
+    <view class="header-right">
+      <button class="header-btn" bindtap="toggleDarkMode">
+        <text class="icon">{{isDarkMode ? '☀️' : '🌙'}}</text>
+      </button>
+      <button class="header-btn" bindtap="showReportModal">
+        <text class="icon">⋯</text>
+      </button>
+    </view>
+  </view>
+
+  <!-- 消息列表 -->
+  <scroll-view class="messages-list" scroll-y="true" scroll-into-view="{{scrollIntoView}}" bindscrolltoupper="onScrollToUpper">
+    <!-- 加载更多提示 -->
+    <view class="load-more-tip" wx:if="{{hasMoreMessages && !isLoadingMore}}">
+      <text>下拉加载更多消息</text>
+    </view>
+    <view class="load-more-tip" wx:if="{{isLoadingMore}}">
+      <text>加载中...</text>
+    </view>
+
+    <!-- 消息项 -->
+    <block wx:for="{{messages}}" wx:key="id">
+      <!-- 时间分隔 -->
+      <view class="time-divider" wx:if="{{item.showTime}}">
+        <text>{{item.displayTime}}</text>
+      </view>
+      
+      <!-- 消息气泡 -->
+      <view class="message-wrapper {{item.senderId === app.globalData.user.openid ? 'sent' : 'received'}}" id="msg-{{item.id}}" bindlongpress="onMessageLongPress" data-message="{{item}}" data-index="{{index}}">
+        <!-- 接收消息：头像在左 -->
+        <image wx:if="{{item.senderId !== app.globalData.user.openid}}" class="avatar" src="{{targetUser.avatarSrc || '/images/mock_avatar.png'}}" mode="aspectFill"></image>
+        
+        <view class="message-content">
+          <!-- 引用消息 -->
+          <view class="quoted-msg" wx:if="{{item.quotedMessage}}">
+            <text>{{item.quotedMessage.content}}</text>
+          </view>
+          
+          <!-- 消息主体 -->
+          <view class="message-bubble {{item.senderId === app.globalData.user.openid ? 'bubble-sent' : 'bubble-received'}}">
+            <!-- 文本消息 -->
+            <text wx:if="{{item.type === 'text'}}" class="message-text">{{item.content}}</text>
+            
+            <!-- 语音消息 -->
+            <view wx:if="{{item.type === 'voice'}}" class="voice-msg" bindtap="playVoice" data-url="{{item.voiceUrl}}" data-id="{{item.id}}">
+              <text class="voice-icon">{{item.isPlaying ? '⏸️' : '🎵'}}</text>
+              <view class="voice-waves" wx:if="{{item.isPlaying}}">
+                <view class="wave"></view>
+                <view class="wave"></view>
+                <view class="wave"></view>
+              </view>
+              <text class="voice-duration">{{item.duration}}"</text>
+            </view>
+          </view>
+          
+          <!-- 消息状态（仅发送的消息显示） -->
+          <view wx:if="{{item.senderId === app.globalData.user.openid}}" class="message-status">
+            <text class="status-text">{{item.statusText}}</text>
+            <text class="status-icon {{item.status}}">{{item.statusIcon}}</text>
+          </view>
+        </view>
+        
+        <!-- 发送消息：头像在右 -->
+        <image wx:if="{{item.senderId === app.globalData.user.openid}}" class="avatar" src="{{currentUserAvatarSrc || '/images/mock_avatar.png'}}" mode="aspectFill"></image>
+      </view>
+    </block>
+
+    <!-- 超出范围提示 -->
+    <view class="range-warning" wx:if="{{!inRange}}">
+      <text class="warning-icon">⚠️</text>
+      <text class="warning-text">您已超出聊天范围</text>
+    </view>
+  </scroll-view>
+
+  <!-- 引用回复条 -->
+  <view class="reply-bar" wx:if="{{showReplyPanel && replyingTo}}">
+    <view class="reply-line"></view>
+    <view class="reply-info">
+      <text class="reply-label">回复</text>
+      <text class="reply-content">{{replyingTo.content}}</text>
+    </view>
+    <button class="reply-close" bindtap="cancelReply">
+      <text>✕</text>
+    </button>
+  </view>
+
+  <!-- 底部输入栏（微信风格） -->
+  <view class="input-bar">
+    <!-- 左侧功能按钮 -->
+    <view class="input-left">
+      <button class="func-btn voice-btn {{isRecording ? 'recording' : ''}}" bindtouchstart="startRecord" bindtouchend="stopRecord" bindtouchcancel="cancelRecord" disabled="{{!inRange}}">
+        <text class="btn-icon">🎤</text>
+      </button>
+    </view>
+    
+    <!-- 中间输入框 -->
+    <view class="input-center">
+      <view class="input-wrapper">
+        <textarea class="text-input" placeholder="{{inRange ? '输入消息' : '超出范围'}}" value="{{inputContent}}" bindinput="onInputChange" disabled="{{!inRange || isSending}}" auto-height maxlength="500" show-confirm-bar="{{false}}"></textarea>
+        
+        <!-- 录音状态 -->
+        <view class="recording-status" wx:if="{{isRecording}}">
+          <view class="recording-dot"></view>
+          <text class="recording-text">录音中 {{recordDuration}}s</text>
+          <text class="recording-tip">松开发送，上滑取消</text>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 右侧发送按钮 -->
+    <view class="input-right">
+      <!-- 当有输入内容时显示发送按钮 -->
+      <button wx:if="{{hasInputContent}}" class="send-btn" bindtap="sendMessage" disabled="{{!inRange || isSending}}">
+        <text class="send-text">{{isSending ? '发送中' : '发送'}}</text>
+      </button>
+      
+      <!-- 无输入内容时显示更多功能按钮 -->
+      <button wx:else class="func-btn more-btn" bindtap="showMoreOptions" disabled="{{!inRange}}">
+        <text class="btn-icon">+</text>
+      </button>
+    </view>
+  </view>
+
+  <!-- 更多功能面板 -->
+  <view class="more-panel" wx:if="{{showMorePanel}}">
+    <view class="more-options">
+      <button class="option-btn" bindtap="selectImage">
+        <text class="option-icon">📷</text>
+        <text class="option-text">照片</text>
+      </button>
+      <button class="option-btn" bindtap="selectLocation">
+        <text class="option-icon">📍</text>
+        <text class="option-text">位置</text>
+      </button>
+      <button class="option-btn" bindtap="selectFile">
+        <text class="option-icon">📁</text>
+        <text class="option-text">文件</text>
+      </button>
+    </view>
+  </view>
+
+  <!-- 举报弹窗 -->
+  <modal title="举报用户" show="{{reportModalVisible}}" bind:confirm="submitReport" bind:cancel="closeReportModal">
+    <view slot="content">
+      <text>请选择举报原因</text>
+    </view>
+  </modal>
+</view>
+
+<!-- 查找类似这样的代码并修复 -->
+<view class="header-info">
+  <view class="user-avatar">
+    <!-- 修复前：可能是错误的路径 -->
+    <!-- <image src="/pages/chat/#4ECDC4" class="avatar-img"></image> -->
+    
+    <!-- 修复后：使用正确的头像路径或默认头像 -->
+    <image src="{{targetUser.avatar || '/images/mock_avatar.png'}}" class="avatar-img" mode="aspectFill"></image>
+    
+    <!-- 或者使用文字头像作为备选 -->
+    <view wx:if="{{!targetUser.avatar}}" class="avatar-circle">
+      <text>{{targetUser.nickname ? targetUser.nickname.charAt(0) : 'U'}}</text>
+    </view>
+  </view>
+</view>

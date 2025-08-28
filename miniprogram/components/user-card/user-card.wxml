@@ -1,0 +1,24 @@
+<view class="user-card {{compact ? 'compact' : ''}}" bindtap="onCardTap">
+  <view class="user-info">
+    <avatar 
+      src="{{user.avatar}}"
+      size="{{compact ? 'small' : 'medium'}}"
+      clickable="{{false}}" />
+    
+    <view class="user-details">
+      <view class="user-name">{{user.nickname || '匿名用户'}}</view>
+      <view class="user-meta" wx:if="{{showDistance}}">
+        <text class="distance">距离 {{formatDistance(distance)}}</text>
+      </view>
+    </view>
+  </view>
+  
+  <view class="user-actions" wx:if="{{showActions && !compact}}">
+    <button class="action-btn chat-btn" size="mini" bindtap="onChatTap">
+      聊天
+    </button>
+    <button class="action-btn report-btn" size="mini" bindtap="onReportTap">
+      举报
+    </button>
+  </view>
+</view>

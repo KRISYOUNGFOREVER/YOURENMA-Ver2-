@@ -1,0 +1,10 @@
+{
+  "name": "aiChat",
+  "version": "1.0.0",
+  "description": "AI chat cloud function (Doubao/Ark)",
+  "main": "index.js",
+  "license": "ISC",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

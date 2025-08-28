@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "聊天",
+  "usingComponents": {
+    "avatar": "/components/avatar/avatar",
+    "message-bubble": "/components/message-bubble/message-bubble",
+    "modal": "/components/modal/modal",
+    "loading": "/components/loading/loading",
+    "empty": "/components/empty/empty"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "autoExpireChats",
+  "version": "1.0.0",
+  "description": "自动清理过期的聊天记录和广播消息",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+} 

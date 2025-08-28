@@ -1,0 +1,48 @@
+.empty-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80rpx 40rpx;
+  text-align: center;
+}
+
+.empty-image {
+  width: 200rpx;
+  height: 200rpx;
+  margin-bottom: 40rpx;
+  opacity: 0.6;
+}
+
+/* 替换不合规的 `.empty-image image` 为类选择器 */
+.empty-img {
+  width: 100%;
+  height: 100%;
+}
+
+.empty-content {
+  margin-bottom: 40rpx;
+}
+
+.empty-title {
+  display: block;
+  font-size: 32rpx;
+  color: #666;
+  margin-bottom: 16rpx;
+}
+
+.empty-description {
+  display: block;
+  font-size: 28rpx;
+  color: #999;
+  line-height: 1.5;
+}
+
+.empty-action {
+  background-color: #007aff;
+  color: white;
+  border: none;
+  border-radius: 8rpx;
+  padding: 16rpx 32rpx;
+  font-size: 28rpx;
+}

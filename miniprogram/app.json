@@ -1,0 +1,21 @@
+{
+  "pages": [
+    "pages/map/map",
+    "pages/chat/chat"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#3B82F6",
+    "navigationBarTitleText": "YOURENMA",
+    "navigationBarTextStyle": "white"
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "您的位置信息将用于匹配附近的用户"
+    }
+  },
+  "requiredPrivateInfos": ["getLocation", "startLocationUpdate", "onLocationChange"],
+  "requiredBackgroundModes": ["location"],
+  "usingComponents": {},
+  "sitemapLocation": "sitemap.json"
+}

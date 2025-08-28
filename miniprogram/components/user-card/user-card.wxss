@@ -1,0 +1,63 @@
+.user-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24rpx;
+  background-color: white;
+  border-radius: 16rpx;
+  margin-bottom: 16rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
+}
+
+.user-card.compact {
+  padding: 16rpx;
+  margin-bottom: 8rpx;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.user-details {
+  margin-left: 24rpx;
+  flex: 1;
+}
+
+.user-name {
+  font-size: 32rpx;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 8rpx;
+}
+
+.user-meta {
+  font-size: 24rpx;
+  color: #666;
+}
+
+.distance {
+  color: #007aff;
+}
+
+.user-actions {
+  display: flex;
+  gap: 16rpx;
+}
+
+.action-btn {
+  padding: 8rpx 16rpx;
+  font-size: 24rpx;
+  border-radius: 8rpx;
+}
+
+.chat-btn {
+  background-color: #007aff;
+  color: white;
+}
+
+.report-btn {
+  background-color: #ff3b30;
+  color: white;
+}

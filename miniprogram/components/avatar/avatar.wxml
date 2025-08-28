@@ -1,0 +1,8 @@
+<view class="avatar-container avatar-{{size}} {{shape}} {{showBorder ? 'with-border' : ''}} {{clickable ? 'clickable' : ''}}" 
+      bindtap="onAvatarTap">
+  <image 
+    class="avatar-image" 
+    src="{{displaySrc}}" 
+    mode="aspectFill"
+    binderror="onImageError" />
+</view>

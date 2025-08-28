@@ -1,0 +1,31 @@
+<view class="message-item {{isSelf ? 'self' : 'other'}}">
+  <!-- 头像 -->
+  <view class="avatar-wrapper" wx:if="{{showAvatar && !isSelf}}">
+    <avatar 
+      src="{{message.senderAvatar}}"
+      size="small"
+      clickable="{{true}}"
+      bind:avatarTap="onAvatarTap" />
+  </view>
+  
+  <!-- 消息内容 -->
+  <view class="message-content">
+    <!-- 时间 -->
+    <view class="message-time" wx:if="{{showTime}}">
+      {{formatTime(message.timestamp)}}
+    </view>
+    
+    <!-- 消息气泡 -->
+    <view class="message-bubble {{isSelf ? 'self-bubble' : 'other-bubble'}}" 
+          bindtap="onMessageTap">
+      <text class="message-text">{{message.content}}</text>
+    </view>
+  </view>
+  
+  <!-- 自己的头像 -->
+  <view class="avatar-wrapper" wx:if="{{showAvatar && isSelf}}">
+    <avatar 
+      src="{{message.senderAvatar}}"
+      size="small" />
+  </view>
+</view>

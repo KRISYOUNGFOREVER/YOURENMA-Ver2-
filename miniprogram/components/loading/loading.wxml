@@ -1,0 +1,17 @@
+<view class="loading-mask {{visible ? 'show' : ''}}">
+  <view class="loading-container loading-{{size}}">
+    <!-- 旋转加载器 -->
+    <view class="spinner" wx:if="{{type === 'spinner'}}">
+      <view class="spinner-circle"></view>
+    </view>
+    
+    <!-- 点状加载器 -->
+    <view class="dots-loader" wx:if="{{type === 'dots'}}">
+      <view class="dot dot1"></view>
+      <view class="dot dot2"></view>
+      <view class="dot dot3"></view>
+    </view>
+    
+    <text class="loading-text" wx:if="{{text}}">{{text}}</text>
+  </view>
+</view>

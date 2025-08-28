@@ -1,0 +1,57 @@
+# 微信小程序开发相关
+node_modules/
+miniprogram_npm/
+.idea
+.vscode
+.DS_Store
+*.log
+
+# 微信开发者工具本地配置
+project.config.json
+project.private.config.json
+
+# 微信云开发
+cloudfunctions/node_modules/
+cloudfunctions/**/package-lock.json
+
+# 编译产物
+dist/
+deploy_versions/
+.temp/
+.rn_temp/
+
+# 本地环境文件
+*.local
+
+# 其他
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.swc
+
+# 微信小程序
+miniprogram_npm/
+node_modules/
+.DS_Store
+*.log
+
+# 云函数
+cloudfunctions/**/node_modules/
+cloudfunctions/**/.env
+
+# 开发工具
+.vscode/
+.idea/
+
+# 临时文件
+*.tmp
+*.temp
+
+# 环境配置
+.env
+.env.local
+.env.production
+
+# 微信开发者工具
+project.config.json
+project.private.config.json

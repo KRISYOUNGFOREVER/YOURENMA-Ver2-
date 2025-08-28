@@ -1,0 +1,14 @@
+{
+  "name": "handleReport",
+  "version": "1.0.0",
+  "description": "处理用户举报",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+} 
