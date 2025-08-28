@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # YOURENMA（有人吗）- 近距离社交小程序
 
 ## 项目简介
@@ -87,3 +88,7 @@ git clone https://github.com/yourusername/YOURENMA.git
 
 ## 许可证
 [MIT](LICENSE)
+=======
+# YOURENMA-Ver2-
+一款可以和身边人打招呼的工具
+>>>>>>> 9bb2ab87199d70d3b859b3fc809e05149595662b
